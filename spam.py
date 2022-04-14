@@ -1,4 +1,5 @@
 # https://docs.telethon.dev/en/stable/basic/quick-start.html
+
 import configparser
 from telethon import TelegramClient
 

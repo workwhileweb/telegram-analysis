@@ -19,7 +19,7 @@ with open(inputName, "r", encoding='utf-8') as read_file:
 api_id = config['Telegram']['api_id']
 api_hash = str(config['Telegram']['api_hash'])
 
-client = TelegramClient(input['username'], api_id, api_hash)
+client = TelegramClient(input['UserName'], api_id, api_hash)
 
 
 async def get_group_id(client, name):
@@ -33,26 +33,32 @@ async def main():
     me = await client.get_me()
     print("{} - {}".format(me.username, me.phone))
 
-    group_id = input['chat_name']
+    group_id = input['ChatId']
+    if(group_id == ''):
+        group_id = input['ChatName']
     if(group_id != 'me'):
-        group_id = await get_group_id(client, input['chat_name'])
+        group_id = await get_group_id(client, input['ChatName'])
 
-    if(input['image'] == ''):
-        await client.send_message(group_id, input['message'])
+    if(input['Image'] == ''):
+        await client.send_message(group_id, input['Caption'])
     else:
-        await client.send_file(group_id, input['image'], caption=input['message'])
+        await client.send_file(group_id, input['Image'], caption=input['Caption'])
+
+    outputName = inputName + '.out'
 
     result = {
         'result': 'success',
-        'group_id': group_id,
-        'chat_name': input['chat_name'],
-        'message': input['message'],
-        'username': me.username,
-        'phone': me.phone
+        'ChatId': group_id,
+        'ChatName': input['ChatName'],
+        'Caption': input['Caption'],
+        'UserName': me.username,
+        'Phone': me.phone,
+        'Output': outputName,
+        'Input': inputName,
     }
 
     print(json.dumps(result, indent=4, sort_keys=True))
-    with open(inputName + '.out', 'w', encoding='utf-8') as json_file:
+    with open(outputName, 'w', encoding='utf-8') as json_file:
         json.dump(result, json_file)
 
 

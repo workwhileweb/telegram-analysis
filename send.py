@@ -9,7 +9,7 @@ from telethon import TelegramClient
 config = configparser.ConfigParser()
 config.read("config.ini")
 
-inputName = config['inputNameDef']
+inputName = config['Default']['inputName']
 
 if len(sys.argv) >= 2:
     inputName = sys.argv[1]

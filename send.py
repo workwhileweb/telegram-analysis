@@ -9,17 +9,18 @@ from telethon import TelegramClient
 config = configparser.ConfigParser()
 config.read("config.ini")
 
-inputName = 'input.json'
+inputName = config['inputNameDef']
+
 if len(sys.argv) >= 2:
     inputName = sys.argv[1]
 
 with open(inputName, "r", encoding='utf-8') as read_file:
     input = json.load(read_file)
 
-api_id = config['Telegram']['api_id']
-api_hash = str(config['Telegram']['api_hash'])
+apiId = config['Telegram']['apiId']
+apiHash = str(config['Telegram']['apiHash'])
 
-client = TelegramClient(input['UserName'], api_id, api_hash)
+client = TelegramClient(input['UserName'], apiId, apiHash)
 
 
 async def get_group_id(client, name):
